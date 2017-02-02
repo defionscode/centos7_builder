@@ -5,12 +5,9 @@ addons:
       - sourceline: deb http://download.virtualbox.org/virtualbox/debian trusty contrib
         key_url: https://www.virtualbox.org/download/oracle_vbox_2016.asc 
         key-url: https://www.virtualbox.org/download/oracle_vbox.asc 
-    packages:
-      - virtualbox-5.1
-      - dkms
 before_install:
   - sudo apt-get update
-  - sudo apt-get install -y git unzip
+  - sudo apt-get install -y git unzip virtualbox-5.1 dkms
   - wget https://releases.hashicorp.com/packer/0.12.2/packer_0.12.2_linux_amd64.zip -O ~/packer.zip
   - unzip ~/packer.zip -d ~/
   - sudo mv ~/packer /usr/local/bin/
