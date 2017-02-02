@@ -7,7 +7,7 @@ addons:
         key-url: https://www.virtualbox.org/download/oracle_vbox.asc 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install -y git unzip virtualbox-5.1 dkms
+  - sudo apt-get install -y --force-yes git unzip virtualbox-5.1 dkms 
   - wget https://releases.hashicorp.com/packer/0.12.2/packer_0.12.2_linux_amd64.zip -O ~/packer.zip
   - unzip ~/packer.zip -d ~/
   - sudo mv ~/packer /usr/local/bin/
