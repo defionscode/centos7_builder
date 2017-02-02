@@ -1,10 +1,11 @@
 language: python
 before_install:
-  - sudo apt-get install -y unzip
+  - sudo apt-get install -y git unzip
   - wget https://releases.hashicorp.com/packer/0.12.2/packer_0.12.2_linux_amd64.zip -O ~/packer.zip
   - unzip ~/packer.zip -d ~/
-  - ls -arlth ~/
   - sudo mv ~/packer /usr/local/bin/
+  - git clone https://github.com/defionscode/centos7_builder.git ~/builder
 
-install:
-  - packer --version
+install: 
+  - cd builder; packer build template.json
+  - cd builder; ls -arlth
