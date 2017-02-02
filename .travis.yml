@@ -7,6 +7,8 @@ addons:
         key-url: https://www.virtualbox.org/download/oracle_vbox.asc 
 before_install:
   - sudo apt-get update
+  - sudo apt-get install -y linux-headers-3.13.0-103-generic
+  - sudo apt-get install -y linux-headers-generic
   - sudo apt-get install -y --force-yes git unzip virtualbox-5.1 dkms 
   - wget https://releases.hashicorp.com/packer/0.12.2/packer_0.12.2_linux_amd64.zip -O ~/packer.zip
   - unzip ~/packer.zip -d ~/
@@ -14,5 +16,5 @@ before_install:
   - git clone https://github.com/defionscode/centos7_builder.git ~/builder
 
 install: 
-  - cd builder; packer build template.json
-  - cd builder; ls -arlth
+  - cd ~/builder; packer build template.json
+  - cd ~/builder; ls -arlth
