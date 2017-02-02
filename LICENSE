@@ -1,6 +1,13 @@
-The MIT License (MIT)
+The following files, and those files alone, fall under the Copyright (c) 2015 cornfeedhobo 
+./template.json
+./http/ks-xfs.cfg
+./10-growpart.cfg
 
-Copyright (c) 2015 cornfeedhobo
+Everything else is Copyright(c) Jonathan Davila (@defionscode)
+
+Both copyrights are under the MIT License below
+
+The MIT License (MIT)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
