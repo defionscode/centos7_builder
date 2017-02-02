@@ -16,5 +16,5 @@ before_install:
   - git clone https://github.com/defionscode/centos7_builder.git ~/builder
 
 install: 
-  - cd ~/builder; packer build template.json
+  - travis_wait 30 cd ~/builder; packer build template.json
   - cd ~/builder; ls -arlth
