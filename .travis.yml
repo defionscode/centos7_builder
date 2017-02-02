@@ -1,3 +1,4 @@
+language: python
 before_install:
   - sudo apt-get install -y unzip
   - wget https://releases.hashicorp.com/packer/0.12.2/packer_0.12.2_linux_amd64.zip -O ~/packer.zip
