@@ -1,0 +1,66 @@
+{
+    "min_packer_version": "0.8.6",
+    "description": "StackSpace Image builder for VirtualBox and AWS AMI",
+    "variables": {
+        "profile": "xfs",
+        "disk_size": "8192",
+        "memory": "1024",
+        "cpus": "1",
+        "ssh_username": "centos",
+        "ssh_password": "centos"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "vm_name": "stackspace-centos7-ec2-{{user `profile`}}",
+            "headless": true,
+            "guest_os_type": "RedHat_64",
+            "disk_size": "{{user `disk_size`}}",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+                ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+            ],
+            "iso_url": "http://yum.tamu.edu/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso",
+            "iso_checksum": "27bd866242ee058b7a5754e83d8ee8403e216b93d130d800852a96f41c34d86a",
+            "iso_checksum_type": "sha256",
+            "http_directory": "http",
+            "boot_command": ["<tab> text ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks-{{user `profile`}}.cfg<enter><wait>"],
+            "boot_wait": "10s",
+            "ssh_username": "{{user `ssh_username`}}",
+            "ssh_password": "{{user `ssh_password`}}",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "10000s",
+            "guest_additions_mode": "disable",
+            "shutdown_command": "sudo -S shutdown -P now",
+            "output_directory": "output-{{user `profile`}}",
+            "format": "ova"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "10-growpart.cfg",
+            "destination": "/tmp/10-growpart.cfg"
+        },
+        {
+            "type": "shell",
+            "execute_command": "sudo -S sh '{{.Path}}'",
+            "inline": [
+                "yum -y install cloud-init cloud-utils cloud-utils-growpart",
+                "yum -y update",
+                "mv /tmp/10-growpart.cfg /etc/cloud/cloud.cfg.d/10-growpart.cfg",
+                "chown root:root /etc/cloud/cloud.cfg.d/10-growpart.cfg",
+                "systemctl enable cloud-config.service",
+                "systemctl enable cloud-final.service",
+                "systemctl enable cloud-init-local.service",
+                "systemctl enable cloud-init.service",
+                "echo \"{{user `ssh_username`}}:$(openssl rand -base64 32)\" | chpasswd",
+                "shred -u /etc/ssh/*_key /etc/ssh/*_key.pub",
+                "shred -u /root/.*history  /home/centos/.*history",
+                "dd if=/dev/zero of=/zeros bs=1M",
+                "rm -f /zeros"
+            ]
+        }
+    ],
+    "post-processors": ["vagrant"]
+}

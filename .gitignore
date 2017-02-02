@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Packer stuff
+output-xfs/*
+packer_cache
+
+**.orig
